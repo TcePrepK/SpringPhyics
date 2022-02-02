@@ -2,25 +2,26 @@ package renderers;
 
 import display.DisplayManager;
 
+import static core.GlobalVariables.entityRenderer;
+import static core.GlobalVariables.simulationManager;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.*;
 
 public class MasterRenderer {
-    private final EntityRenderer entityRenderer = new EntityRenderer();
-
     private boolean loadCameraVariables = false;
-    
+
     private static void prepare() {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0, 0.3f, 0.0f, 1);
+        glClearColor(0.6f, 0.6f, 0.6f, 1);
     }
 
     public void render() {
         MasterRenderer.prepare();
 
         entityRenderer.render(loadCameraVariables);
+        simulationManager.renderSprings();
 
         loadCameraVariables = false;
     }
@@ -58,7 +59,7 @@ public class MasterRenderer {
         loadCameraVariables = true;
     }
 
-    public void cleanUp() {
+    public static void cleanUp() {
         entityRenderer.cleanUp();
     }
 }

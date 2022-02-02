@@ -27,6 +27,16 @@ public class Vector3D {
         this.z = z;
     }
 
+    public void set(final Vector3D v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
+
+    public void set(final float v) {
+        x = y = z = v;
+    }
+
     public void set(final float x, final float y, final float z) {
         this.x = x;
         this.y = y;
@@ -53,8 +63,16 @@ public class Vector3D {
         return new Vector3D((int) Math.floor(x), (int) Math.floor(y), (int) Math.floor(z));
     }
 
+    public Vector3D abs() {
+        return new Vector3D(Math.abs(x), Math.abs(y), Math.abs(z));
+    }
+
     public Vector3D mod(final int v) {
         return new Vector3D(x % v, y % v, z % v);
+    }
+
+    public void addInplace(final Vector3D v) {
+        set(add(v));
     }
 
     public Vector3D add(final Vector3D v) {

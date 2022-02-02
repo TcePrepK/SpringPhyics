@@ -2,7 +2,9 @@ package core;
 
 import game.Camera;
 import game.Player;
+import renderers.EntityRenderer;
 import renderers.MasterRenderer;
+import simulation.SimulationManager;
 import toolbox.MousePicker;
 
 import java.util.Random;
@@ -16,16 +18,17 @@ public class GlobalVariables {
     public static boolean showDirtyRect = true;
     public static boolean renderChunks = true;
     public static boolean noisyWorld = true;
+    public static boolean camera2D = false;
 
     public static MousePicker mousePicker;
     public final static Random rand = new Random();
     public static Camera camera = new Camera();
     public static Player player;
 
-    public final static int mapChunkSize = 32;
-    public final static int chunkViewDistance = 2;
+    public static SimulationManager simulationManager;
 
     public static ImGuiManager imGuiManager;
     public static Loader loader;
     public static MasterRenderer renderer;
+    public static EntityRenderer entityRenderer;
 }

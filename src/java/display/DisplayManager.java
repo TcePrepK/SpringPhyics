@@ -96,4 +96,8 @@ public class DisplayManager {
     public static float getRenderTime() {
         return DisplayManager.renderTime;
     }
+
+    public static float getDelta() {
+        return DisplayManager.delta;
+    }
 }

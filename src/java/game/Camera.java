@@ -38,9 +38,9 @@ public class Camera {
 
     private final Vector3D position = new Vector3D();
     private float angleAroundPlayer = 180;
-    private float zoomLevel = 2; // 2
+    private float zoomLevel = 15; // 2
     private float desiredZoomLevel = zoomLevel;
-    private float pitch = 0; // 20
+    private float pitch = 20;
     private float yaw = 0;
     private float roll;
 
@@ -48,7 +48,7 @@ public class Camera {
         createProjectionMatrix();
 
         Mouse.mouseMiddleMove.add(this::calculateZoom);
-        Mouse.mouseRightDown.add(this::calculatePitch);
+//        Mouse.mouseRightDown.add(this::calculatePitch);
 
         matrixWatcher.add(() -> {
             renderer.loadCameraVariablesNextFrame();
@@ -59,6 +59,16 @@ public class Camera {
 
     void update() {
         updateZoom();
+
+        if (camera2D) {
+            pitch = 0.001f;
+            desiredZoomLevel = 20;
+            angleAroundPlayer = 180;
+            return;
+        } else {
+            pitch = 20;
+        }
+
 
         if ((Mouse.isButtonDown(1) && freePlayMode)) {
             calculateAngleAroundPlayer(0.3f);

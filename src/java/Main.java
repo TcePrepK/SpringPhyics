@@ -3,11 +3,10 @@ import core.Loader;
 import display.DisplayManager;
 import game.Player;
 import org.lwjgl.glfw.GLFW;
+import renderers.EntityRenderer;
 import renderers.MasterRenderer;
-import toolbox.Keyboard;
-import toolbox.Logger;
-import toolbox.Mouse;
-import toolbox.MousePicker;
+import simulation.SimulationManager;
+import toolbox.*;
 
 import static core.GlobalVariables.*;
 
@@ -18,6 +17,7 @@ public class Main {
         imGuiManager = new ImGuiManager();
         loader = new Loader();
         renderer = new MasterRenderer();
+        entityRenderer = new EntityRenderer();
 
         // Inits
         Keyboard.init();
@@ -29,6 +29,14 @@ public class Main {
         mousePicker = new MousePicker(camera);
         // Camera
 
+        // Simulation
+        simulationManager = new SimulationManager();
+
+        simulationManager.addMassPoint(new Vector3D(10, 0, -10), 5);
+        simulationManager.addMassPoint(new Vector3D(-10, 0, 10), 1);
+        simulationManager.addSpring(0, 1, 2, 10, 0);
+        // Simulation
+
         // Game Loop
         Logger.out("~ First Frame Starting");
         while (!GLFW.glfwWindowShouldClose(DisplayManager.getWindow())) {
@@ -36,6 +44,8 @@ public class Main {
 
             player.update();
             Mouse.update();
+
+            simulationManager.update();
 
 //            world.update();
 //            world.updateBuffer();
@@ -48,7 +58,7 @@ public class Main {
             DisplayManager.updateDisplay();
         }
 
-        renderer.cleanUp();
+        MasterRenderer.cleanUp();
         loader.cleanUp();
         imGuiManager.cleanUp();
         DisplayManager.closeDisplay();

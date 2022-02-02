@@ -5,7 +5,6 @@ import game.Entity;
 import shaders.BaseShader;
 import shaders.EntityShader;
 import toolbox.Color;
-import toolbox.CubeModelGenerator;
 import toolbox.PlaneModelGenerator;
 import toolbox.Vector3D;
 
@@ -19,12 +18,9 @@ public class EntityRenderer extends BaseRenderer {
 
     private final EntityShader shader = new EntityShader();
 
-    EntityRenderer() {
+    public EntityRenderer() {
         // World Plane
-        addEntity(new Entity(PlaneModelGenerator.generate(new Color(0, 0.6f, 0)), new Vector3D(0, -0.501f, 0), new Vector3D(0), 100));
-
-        // Test Cube
-        addEntity(new Entity(CubeModelGenerator.generate(new Color(1, 1, 0)), new Vector3D(0, 0, 0), new Vector3D(0), 1));
+        addEntity(new Entity(PlaneModelGenerator.generate(new Color(0, 0.6f, 0)), new Vector3D(0, 0, 0), new Vector3D(0), 100));
     }
 
     @Override
@@ -53,7 +49,7 @@ public class EntityRenderer extends BaseRenderer {
         BaseShader.stop();
     }
 
-    private void addEntity(final Entity entity) {
+    public void addEntity(final Entity entity) {
         if (entities.contains(entity)) {
             return;
         }
@@ -69,5 +65,9 @@ public class EntityRenderer extends BaseRenderer {
     @Override
     void cleanUp() {
         shader.cleanUp();
+    }
+
+    public EntityShader getShader() {
+        return shader;
     }
 }

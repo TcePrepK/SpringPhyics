@@ -19,20 +19,21 @@ public class Entity {
         this.rotation = rotation;
         this.scale = scale;
 
-        createModelMatrix();
+        updateModelMatrix();
     }
+
 
     public void changePosition(final Vector3D newPosition) {
         position.set(newPosition.x, newPosition.y, newPosition.z);
-        createModelMatrix();
+        updateModelMatrix();
     }
 
     public void changeRotation(final Vector3D newRotation) {
         rotation.set(newRotation.x, newRotation.y, newRotation.z);
-        createModelMatrix();
+        updateModelMatrix();
     }
 
-    private void createModelMatrix() {
+    public void updateModelMatrix() {
         modelMatrix.identity();
         modelMatrix.rotate((float) Math.toRadians(rotation.x), new Vector3f(1, 0, 0));
         modelMatrix.rotate((float) Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
