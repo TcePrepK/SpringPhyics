@@ -6,7 +6,10 @@ import org.lwjgl.glfw.GLFW;
 import renderers.EntityRenderer;
 import renderers.MasterRenderer;
 import simulation.SimulationManager;
-import toolbox.*;
+import toolbox.Keyboard;
+import toolbox.Logger;
+import toolbox.Mouse;
+import toolbox.MousePicker;
 
 import static core.GlobalVariables.*;
 
@@ -31,10 +34,7 @@ public class Main {
 
         // Simulation
         simulationManager = new SimulationManager();
-
-        simulationManager.addMassPoint(new Vector3D(10, 0, -10), 5);
-        simulationManager.addMassPoint(new Vector3D(-10, 0, 10), 1);
-        simulationManager.addSpring(0, 1, 2, 10, 0);
+//        SimulationManager.start();
         // Simulation
 
         // Game Loop

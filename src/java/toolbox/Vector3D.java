@@ -4,6 +4,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import toolbox.Points.Point3D;
 
+import static core.GlobalVariables.rand;
+
 public class Vector3D {
     public float x, y, z;
 
@@ -140,5 +142,13 @@ public class Vector3D {
 
     public Color toColor() {
         return new Color(x, y, z);
+    }
+
+    public static Vector3D randomVector(final float min, final float max) {
+        final float x = rand.nextFloat() * (max - min) + min;
+        final float y = rand.nextFloat() * (max - min) + min;
+        final float z = rand.nextFloat() * (max - min) + min;
+
+        return new Vector3D(x, y, z);
     }
 }

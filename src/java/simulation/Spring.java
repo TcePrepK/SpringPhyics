@@ -8,7 +8,6 @@ public class Spring {
     private final float stiffness;
     private final float restLength;
     private final float dampingFactor;
-    private final Vector3D force = new Vector3D();
 
     private final int id;
 
@@ -24,13 +23,27 @@ public class Spring {
 
     public void update() {
         final Vector3D path = posB().sub(posA());
-        final float pathLength = path.length() - restLength;
-        final Vector3D finalPath = path.normalize().mult(pathLength);
+        final float pathLength = path.length();
 
-        force.set(finalPath.mult(stiffness));
+        if (pathLength == 0) {
+            pointA.addForce(new Vector3D(0, 1, 0));
+            pointA.addForce(new Vector3D(0, -1, 0));
+            return;
+        }
 
-        pointA.addForce(force);
-        pointB.addForce(force.mult(-1));
+        // Spring Force
+        final float springPath = pathLength - restLength;
+        final float springForce = springPath * stiffness;
+
+        // Damping Force
+        final Vector3D normalizedPath = path.normalize();
+        final Vector3D velDifference = velB().sub(velA());
+        final float dampingForce = normalizedPath.dot(velDifference) * dampingFactor;
+
+        final float totalForce = springForce + dampingForce;
+
+        pointA.addForce(normalizedPath.mult(totalForce));
+        pointB.addForce(normalizedPath.mult(-totalForce));
     }
 
     Vector3D posA() {
@@ -39,6 +52,14 @@ public class Spring {
 
     Vector3D posB() {
         return pointB.getPosition();
+    }
+
+    private Vector3D velA() {
+        return pointA.getVelocity();
+    }
+
+    private Vector3D velB() {
+        return pointB.getVelocity();
     }
 
     public int getId() {

@@ -4,6 +4,7 @@ import display.DisplayManager;
 import imgui.ImGui;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
+import simulation.SimulationManager;
 import toolbox.Logger;
 
 import static core.GlobalVariables.camera2D;
@@ -36,7 +37,17 @@ public class ImGuiManager {
         if (ImGui.checkbox("2D Camera", camera2D)) {
             camera2D = !camera2D;
         }
+        ImGui.spacing();
+        ImGui.spacing();
         // Camera
+
+        // Simulation
+        if (ImGui.selectable("New Simulation")) {
+            for (int i = 0; i < 10; i++) {
+                SimulationManager.start();
+            }
+        }
+        // Simulation
 
         ImGui.end();
         ImGui.render();
