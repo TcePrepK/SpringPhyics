@@ -28,13 +28,12 @@ public class MassPoint {
         force.addInplace(gravity.mult(mass));
 
         velocity.addInplace(force.mult(deltaTime).div(mass));
-        position.addInplace(velocity.mult(deltaTime));
 
         if (velocity.y < 0 && position.y < mass / 2) {
             position.y = mass / 2;
+            final float friction = velocity.y * -frictionFactor;
             velocity.y = 0;
 
-            final float friction = force.y * -frictionFactor;
 
             if (Math.abs(velocity.x) > friction) {
                 if (velocity.x > 0) {
@@ -57,6 +56,8 @@ public class MassPoint {
             }
         }
 
+        position.addInplace(velocity.mult(deltaTime));
+
         force.set(0);
     }
 
@@ -70,6 +71,10 @@ public class MassPoint {
 
     Vector3D getVelocity() {
         return velocity;
+    }
+
+    float getMass() {
+        return mass;
     }
 
     public int getId() {

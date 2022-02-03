@@ -4,10 +4,11 @@ import display.DisplayManager;
 import imgui.ImGui;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
+import imgui.type.ImFloat;
 import simulation.SimulationManager;
 import toolbox.Logger;
 
-import static core.GlobalVariables.camera2D;
+import static simulation.SimulationSettings.*;
 
 public class ImGuiManager {
     private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
@@ -28,25 +29,34 @@ public class ImGuiManager {
 
         // FPS
         ImGui.text("FPS: " + DisplayManager.getFPS());
+        ImGui.text("Frame time: " + DisplayManager.getDelta() * 1000 + "ms");
         ImGui.text("Rendering time: " + renderTime + "ms");
         ImGui.spacing();
         ImGui.spacing();
         // FPS
 
-        // Camera
-        if (ImGui.checkbox("2D Camera", camera2D)) {
-            camera2D = !camera2D;
+        // Simulation0
+        if (ImGui.selectable("|> New Simulation")) {
+            SimulationManager.start();
         }
         ImGui.spacing();
-        ImGui.spacing();
-        // Camera
 
-        // Simulation
-        if (ImGui.selectable("New Simulation")) {
-            for (int i = 0; i < 10; i++) {
-                SimulationManager.start();
-            }
+//        ImGui.dragFloat("test", new float[]{gravity.x, gravity.y, gravity.z});
+        final float[] gravityArray = new float[]{gravity.x, gravity.y, gravity.z};
+        if (ImGui.inputFloat3("Gravity", gravityArray)) {
+            gravity.set(gravityArray[0], gravityArray[1], gravityArray[2]);
         }
+
+        final ImFloat friction = new ImFloat(frictionFactor);
+        if (ImGui.inputFloat("Friction", friction)) {
+            frictionFactor = friction.get();
+        }
+
+        final ImFloat rest = new ImFloat(restLength);
+        if (ImGui.inputFloat("Rest Length", rest)) {
+            restLength = rest.get();
+        }
+
         // Simulation
 
         ImGui.end();

@@ -39,17 +39,13 @@ public class SimulationManager {
         final int[] nodes5 = new int[]{nodes2[0], nodes2[1], nodes1[2], nodes1[3]}; // Cross 1
         final int[] nodes6 = new int[]{nodes1[0], nodes1[1], nodes2[2], nodes2[3]}; // Cross 2
 
-        final float stiffness = 200;
-        final float restLength = 4;
-        final float dampingFactor = 1;
+        SimulationManager.connectRectangle(nodes1);
+        SimulationManager.connectRectangle(nodes2);
+        SimulationManager.connectRectangle(nodes3);
+        SimulationManager.connectRectangle(nodes4);
 
-        SimulationManager.connectRectangle(nodes1, stiffness, restLength, dampingFactor);
-        SimulationManager.connectRectangle(nodes2, stiffness, restLength, dampingFactor);
-        SimulationManager.connectRectangle(nodes3, stiffness, restLength, dampingFactor);
-        SimulationManager.connectRectangle(nodes4, stiffness, restLength, dampingFactor);
-        
-        SimulationManager.connectCross(nodes5, stiffness, restLength, dampingFactor);
-        SimulationManager.connectCross(nodes6, stiffness, restLength, dampingFactor);
+        SimulationManager.connectCross(nodes5);
+        SimulationManager.connectCross(nodes6);
     }
 
     private static int[] addRectangle(final Vector3D position) {
@@ -63,16 +59,16 @@ public class SimulationManager {
         return ids;
     }
 
-    private static void connectRectangle(final int[] nodes, final float stiffness, final float restLength, final float dampingFactor) {
-        simulationManager.addSpring(nodes[0], nodes[1], stiffness, restLength, dampingFactor);
-        simulationManager.addSpring(nodes[1], nodes[2], stiffness, restLength, dampingFactor);
-        simulationManager.addSpring(nodes[2], nodes[3], stiffness, restLength, dampingFactor);
-        simulationManager.addSpring(nodes[3], nodes[0], stiffness, restLength, dampingFactor);
+    private static void connectRectangle(final int[] nodes) {
+        simulationManager.addSpring(nodes[0], nodes[1]);
+        simulationManager.addSpring(nodes[1], nodes[2]);
+        simulationManager.addSpring(nodes[2], nodes[3]);
+        simulationManager.addSpring(nodes[3], nodes[0]);
     }
 
-    private static void connectCross(final int[] nodes, final float stiffness, final float restLength, final float dampingFactor) {
-        simulationManager.addSpring(nodes[0], nodes[2], stiffness, restLength, dampingFactor);
-        simulationManager.addSpring(nodes[1], nodes[3], stiffness, restLength, dampingFactor);
+    private static void connectCross(final int[] nodes) {
+        simulationManager.addSpring(nodes[0], nodes[2]);
+        simulationManager.addSpring(nodes[1], nodes[3]);
     }
 
     public void update() {
@@ -118,7 +114,7 @@ public class SimulationManager {
         return lastMassId++;
     }
 
-    private void addSpring(final int firstID, final int secondID, final float stiffness, final float restLength, final float dampingFactor) {
+    private void addSpring(final int firstID, final int secondID) {
         if (firstID == secondID) {
             Logger.error("~ Tried To Connect Same Mass Points");
             return;
@@ -129,7 +125,7 @@ public class SimulationManager {
         final MassPoint firstMassPoint = idToMassPoint.get(firstID);
         final MassPoint secondMassPoint = idToMassPoint.get(secondID);
 
-        final Spring spring = new Spring(id, firstMassPoint, secondMassPoint, stiffness, restLength, dampingFactor);
+        final Spring spring = new Spring(id, firstMassPoint, secondMassPoint);
 
         springs.add(spring);
     }

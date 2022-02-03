@@ -2,32 +2,28 @@ package simulation;
 
 import toolbox.Vector3D;
 
+import static simulation.SimulationSettings.*;
+
 public class Spring {
     private final MassPoint pointA;
     private final MassPoint pointB;
-    private final float stiffness;
-    private final float restLength;
-    private final float dampingFactor;
 
     private final int id;
 
-    Spring(final int id, final MassPoint connection1, final MassPoint connection2, final float stiffness, final float restLength, final float dampingFactor) {
+    Spring(final int id, final MassPoint connection1, final MassPoint connection2) {
         this.id = id;
 
         pointA = connection1;
         pointB = connection2;
-        this.stiffness = stiffness;
-        this.restLength = restLength;
-        this.dampingFactor = dampingFactor;
     }
 
     public void update() {
         final Vector3D path = posB().sub(posA());
         final float pathLength = path.length();
 
-        if (pathLength == 0) {
-            pointA.addForce(new Vector3D(0, 1, 0));
-            pointA.addForce(new Vector3D(0, -1, 0));
+        if (pathLength <= (massA() + massB()) / 2) {
+            pointA.addForce(new Vector3D(0, -gravity.y - 1, 0));
+            pointB.addForce(new Vector3D(0, 0, 0));
             return;
         }
 
@@ -60,6 +56,14 @@ public class Spring {
 
     private Vector3D velB() {
         return pointB.getVelocity();
+    }
+
+    private float massA() {
+        return pointA.getMass();
+    }
+
+    private float massB() {
+        return pointB.getMass();
     }
 
     public int getId() {

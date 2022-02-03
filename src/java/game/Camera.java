@@ -48,7 +48,7 @@ public class Camera {
         createProjectionMatrix();
 
         Mouse.mouseMiddleMove.add(this::calculateZoom);
-//        Mouse.mouseRightDown.add(this::calculatePitch);
+        Mouse.mouseRightDown.add(this::calculatePitch);
 
         matrixWatcher.add(() -> {
             renderer.loadCameraVariablesNextFrame();
@@ -59,16 +59,6 @@ public class Camera {
 
     void update() {
         updateZoom();
-
-        if (camera2D) {
-            pitch = 0.001f;
-            desiredZoomLevel = 20;
-            angleAroundPlayer = 180;
-            return;
-        } else {
-            pitch = 20;
-        }
-
 
         if ((Mouse.isButtonDown(1) && freePlayMode)) {
             calculateAngleAroundPlayer(0.3f);

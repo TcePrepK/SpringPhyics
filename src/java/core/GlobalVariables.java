@@ -18,7 +18,6 @@ public class GlobalVariables {
     public static boolean showDirtyRect = true;
     public static boolean renderChunks = true;
     public static boolean noisyWorld = true;
-    public static boolean camera2D = false;
 
     public static MousePicker mousePicker;
     public final static Random rand = new Random();
